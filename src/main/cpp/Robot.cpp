@@ -12,10 +12,11 @@
 
 void Robot::RobotInit()
 {
-  m_defaultAuto = new DriveDistanceCommandAuto(140);
-  m_chooser.SetDefaultOption("Default Auto", m_defaultAuto);
 // m_chooser.AddOption("My Auto", &m_myAuto);
   CommandBase::Init();
+  m_defaultAuto = new VisionCommand();
+  m_chooser.SetDefaultOption("Default Auto", m_defaultAuto);
+
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 

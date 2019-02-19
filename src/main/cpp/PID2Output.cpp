@@ -27,6 +27,7 @@ PID2Output::~PID2Output() {
 
 void PID2Output::PIDWrite(double value)
 {
+	//std::cout << value << std::endl;
 	value = -value;
 	if(turn)
 	{

@@ -11,6 +11,8 @@
 
 class ElevatorCommand : public frc::Command {
 private:
+  int pos = 0;
+  int old_pos = 0;
 public:
   ElevatorCommand();
   void Initialize() override;

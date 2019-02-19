@@ -35,6 +35,6 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
   frc::Compressor *c = new frc::Compressor(0);
   frc::Command* m_autonomousCommand = nullptr;
-  DriveDistanceCommandAuto* m_defaultAuto;
+  VisionCommand* m_defaultAuto;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

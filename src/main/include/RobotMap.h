@@ -19,8 +19,8 @@ class RobotMap
     kMiddleLeft = 0,//
     kRearRight = 10,//
     kRearLeft = 7,//
-    kElevatorMotor1 = 6,
-    kElevatorMotor2 = 4,
-    kArmMotor = 1,
+    kElevatorMotor1 = 6,//
+    kElevatorMotor2 = 4,//
+    kArmMotor = 1,//
     kCargoMotor = 5;//
 };

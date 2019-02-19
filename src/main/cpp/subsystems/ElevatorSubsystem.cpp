@@ -21,20 +21,23 @@ void ElevatorSubsystem::InitDefaultCommand()
   bottom = new frc::DigitalInput(0);
   top = new frc::DigitalInput(3);
   break_1 = new frc::DoubleSolenoid(4, 5);
+  Elevator_Output = new ElevatorPIDOutput();
+  Elevator_Source = new Enc1PIDSource(Elevator_Motor_1);
+  Elevator_PID = new frc::PIDController(M_ELEVATOR_P, M_ELEVATOR_I, M_ELEVATOR_D, Elevator_Source, Elevator_Output);
+  Elevator_PID->SetOutputRange(-.3, .4);
+  Elevator_PID->SetAbsoluteTolerance(4);
 }
 
-void ElevatorSubsystem::Set(double speed, int position)
+void ElevatorSubsystem::Set(double speed)
 {
-  
-  //speed = 0;
   if(!top->Get() && speed < .01)
   {
-    position = 0;
+    //std::cout << "TOP" << std::endl;
     speed = 0;
   }
   if(!bottom->Get() && speed > -.01)
   {
-    position = 0;
+    //std::cout << "BOTTOM" << std::endl;
     speed = 0;
   }
   speed = -speed;
@@ -44,24 +47,23 @@ void ElevatorSubsystem::Set(double speed, int position)
   }
   else
   {
-    
     break_1->Set(frc::DoubleSolenoid::Value::kForward);
-   // std::cout << "UNBREAK" << std::endl;   
   }
-  if(position > -Elevator_Motor_1->GetSelectedSensorPosition(0) && position != 0)
-  {
-    Elevator_Motor_1->Set(ControlMode::PercentOutput, .5);
-    Elevator_Motor_2->Set(ControlMode::PercentOutput, -.5);
-  }
-  else if(position < -Elevator_Motor_1->GetSelectedSensorPosition(0) && position != 0)
-  {
-    Elevator_Motor_1->Set(ControlMode::PercentOutput, -.5);
-    Elevator_Motor_2->Set(ControlMode::PercentOutput, .5);
 
-  }
-  else
-  {
-    Elevator_Motor_1->Set(ControlMode::PercentOutput, speed);
-    Elevator_Motor_2->Set(ControlMode::PercentOutput, -speed);
-  }
+  Elevator_Motor_1->Set(ControlMode::PercentOutput, speed);
+  Elevator_Motor_2->Set(ControlMode::PercentOutput, -speed);
+}
+
+int ElevatorSubsystem::Get()
+{
+  return -Elevator_Motor_1->GetSelectedSensorPosition(0)/100;
+}
+
+frc::PIDController* ElevatorSubsystem::GetPID()
+{
+  return Elevator_PID;
+}
+ElevatorPIDOutput* ElevatorSubsystem::GetOutput()
+{
+  return Elevator_Output;
 }

@@ -31,17 +31,19 @@ DriveSubsystem::DriveSubsystem() : Subsystem("ExampleSubsystem")
   Drive_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, false, true);
   Rotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, true);
   DriveRotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, false);
+  VisionRotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, true);
 
   Gyro = new frc::ADXRS450_Gyro(frc::SPI::Port::kOnboardCS0);
-
   Drive_PID = new frc::PIDController(M_DRIVE_P, M_DRIVE_I, M_DRIVE_D, Drive_PID_Srouce, Drive_PID_Output);
   Rotate_PID = new frc::PIDController(M_ROTATE_P, M_ROTATE_I, M_ROTATE_D, Gyro, Rotate_PID_Output);
 	Rotate_PID->SetPIDSourceType(frc::PIDSourceType::kDisplacement);
-  DriveRotate_PID = new frc::PIDController(M_ROTATE_P, M_ROTATE_I, M_ROTATE_D, Gyro, DriveRotate_PID_Output);
+  DriveRotate_PID = new frc::PIDController(M_DRIVEROTATE_P, M_DRIVEROTATE_I, M_DRIVEROTATE_D, Gyro, DriveRotate_PID_Output);
+  VisionRotate_PID = new frc::PIDController(M_VISIONROTATE_P, M_VISIONROTATE_I, M_VISIONROTATE_D, Gyro, VisionRotate_PID_Output);
 
   Drive_PID->SetEnabled(false);
   Rotate_PID->SetEnabled(false);
   DriveRotate_PID->SetEnabled(false);
+  VisionRotate_PID->SetEnabled(false);
 }
 
 void DriveSubsystem::InitDefaultCommand()
@@ -99,6 +101,11 @@ frc::PIDController* DriveSubsystem::GetRotatePID()
 frc::PIDController* DriveSubsystem::GetDriveRotatePID()
 {
   return DriveRotate_PID;
+}
+
+frc::PIDController* DriveSubsystem::GetVisionRotatePID()
+{
+  return VisionRotate_PID;
 }
 
 // Put methods for controlling this subsystem

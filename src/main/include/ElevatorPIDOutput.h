@@ -5,24 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Enc1PIDSource.h"
-#include <iostream>
+#pragma once
+#include "frc/WPILib.h"
+#include <ctre/Phoenix.h>
 
-Enc1PIDSource::Enc1PIDSource(TalonSRX* pTalon) : m_pTalon(pTalon) 
+class ElevatorPIDOutput : public frc::PIDOutput
 {
-
-}
-
-Enc1PIDSource::~Enc1PIDSource()
-{
-}
-
-double Enc1PIDSource::PIDGet()
-{
-	return -m_pTalon->GetSelectedSensorPosition(0) / 100;
-}
-
-void Enc1PIDSource::Reset()
-{
-	m_pTalon->GetSensorCollection().SetQuadraturePosition(0, 10);
-}
+  double value;
+ public:
+  ElevatorPIDOutput();
+	virtual ~ElevatorPIDOutput();
+	virtual void PIDWrite(double value);
+  double GetValue();
+};

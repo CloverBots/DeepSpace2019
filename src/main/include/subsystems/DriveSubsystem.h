@@ -24,6 +24,14 @@ class DriveSubsystem : public frc::Subsystem {
   const float M_ROTATE_I = 0.0f;
   const float M_ROTATE_D = 0.008f;
 
+  const float M_DRIVEROTATE_P = 0.012f;
+  const float M_DRIVEROTATE_I = 0.0f;
+  const float M_DRIVEROTATE_D = 0.008f;
+
+  const float M_VISIONROTATE_P = 0.015f;
+  const float M_VISIONROTATE_I = 0.0f;
+  const float M_VISIONROTATE_D = 0.008f;
+
   TalonSRX* Front_Right_Motor;
   TalonSRX* Front_Left_Motor;
   TalonSRX* Middle_Right_Motor;
@@ -37,12 +45,14 @@ class DriveSubsystem : public frc::Subsystem {
   PID2Output* Drive_PID_Output;
   PID2Output* Rotate_PID_Output;
   PID2Output* DriveRotate_PID_Output;
+  PID2Output* VisionRotate_PID_Output;
 
   frc::ADXRS450_Gyro* Gyro;
 
   frc::PIDController* Drive_PID;
   frc::PIDController* Rotate_PID;
   frc::PIDController* DriveRotate_PID;
+  frc::PIDController* VisionRotate_PID;
 
   public:
   
@@ -53,5 +63,6 @@ class DriveSubsystem : public frc::Subsystem {
   frc::PIDController* GetDrivePID();
   frc::PIDController* GetRotatePID();
   frc::PIDController* GetDriveRotatePID();
+  frc::PIDController* GetVisionRotatePID();
   void InitDefaultCommand() override;
 };

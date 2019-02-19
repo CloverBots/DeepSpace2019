@@ -5,24 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Enc1PIDSource.h"
-#include <iostream>
+#include "ElevatorPIDOutput.h"
 
-Enc1PIDSource::Enc1PIDSource(TalonSRX* pTalon) : m_pTalon(pTalon) 
+ElevatorPIDOutput::ElevatorPIDOutput() {}
+
+ElevatorPIDOutput::~ElevatorPIDOutput() {}
+
+void ElevatorPIDOutput::PIDWrite(double value)
 {
-
+    this->value = value;
 }
 
-Enc1PIDSource::~Enc1PIDSource()
+double ElevatorPIDOutput::GetValue()
 {
+    return value;
 }
 
-double Enc1PIDSource::PIDGet()
-{
-	return -m_pTalon->GetSelectedSensorPosition(0) / 100;
-}
-
-void Enc1PIDSource::Reset()
-{
-	m_pTalon->GetSensorCollection().SetQuadraturePosition(0, 10);
-}

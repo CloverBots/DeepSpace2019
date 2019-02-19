@@ -10,6 +10,7 @@
 #include <frc/commands/Command.h>
 
 class DriveCommand : public frc::Command {
+  bool once = false;
  public:
   DriveCommand();
   void Initialize() override;

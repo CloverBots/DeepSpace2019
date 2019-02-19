@@ -16,6 +16,7 @@ class HatchSubsystem : public frc::Subsystem {
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
   frc::DoubleSolenoid* Hatch;
+  
  public:
   HatchSubsystem();
   void SetHatch(frc::DoubleSolenoid::Value);

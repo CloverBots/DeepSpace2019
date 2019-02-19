@@ -26,7 +26,7 @@ void ArmSubsystem::InitDefaultCommand()
 
 void ArmSubsystem::SetSpeed(double speed)
 {
-  Arm_Motor->Set(ControlMode::PercentOutput, speed / 3.5);
+  Arm_Motor->Set(ControlMode::PercentOutput, speed / 1.5);
 }
 
 frc::PIDController* ArmSubsystem::GetArmPID()
