@@ -27,11 +27,11 @@ DriveSubsystem::DriveSubsystem() : Subsystem("ExampleSubsystem")
 	Middle_Left_Motor->GetSensorCollection().SetQuadraturePosition(0, 10);
 
   Gear_Box = new frc::DoubleSolenoid(0, 1);
-  Drive_PID_Srouce = new Enc2PIDSource(Middle_Right_Motor, Middle_Left_Motor);
+  Drive_PID_Srouce /*Srouce*/= new Enc2PIDSource(Middle_Right_Motor, Middle_Left_Motor);
   Drive_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, false, true);
   Rotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, true);
   DriveRotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, false);
-  VisionRotate_PID_Output = new PID2Output(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor, true, true);
+  VisionRotate_PID_Output = new PIDVisionOutput(Middle_Right_Motor, Middle_Left_Motor, Front_Right_Motor, Front_Left_Motor, Back_Right_Motor, Back_Left_Motor);
 
   Gyro = new frc::ADXRS450_Gyro(frc::SPI::Port::kOnboardCS0);
   Drive_PID = new frc::PIDController(M_DRIVE_P, M_DRIVE_I, M_DRIVE_D, Drive_PID_Srouce, Drive_PID_Output);
@@ -39,6 +39,9 @@ DriveSubsystem::DriveSubsystem() : Subsystem("ExampleSubsystem")
 	Rotate_PID->SetPIDSourceType(frc::PIDSourceType::kDisplacement);
   DriveRotate_PID = new frc::PIDController(M_DRIVEROTATE_P, M_DRIVEROTATE_I, M_DRIVEROTATE_D, Gyro, DriveRotate_PID_Output);
   VisionRotate_PID = new frc::PIDController(M_VISIONROTATE_P, M_VISIONROTATE_I, M_VISIONROTATE_D, Gyro, VisionRotate_PID_Output);
+
+  Drive_PID->SetAbsoluteTolerance(1.5);
+  Rotate_PID->SetAbsoluteTolerance(.4);
 
   Drive_PID->SetEnabled(false);
   Rotate_PID->SetEnabled(false);
@@ -62,14 +65,17 @@ int closest1(std::vector<int> const& vec, int value)
 
 void DriveSubsystem::Drive(double speed, double turn, bool turn_override)
 {
+  //std::cout << "speed: " << speed << std::endl;
+  speed = speed * .75;
   if(turn_override)
   {
     turn *= 2;
+    speed /= .75;
   }
   //std::cout << Middle_Left_Motor->GetSelectedSensorPosition(0) << std::endl;
   //std::cout << Middle_Right_Motor->GetSelectedSensorPosition(0) << std::endl;
   //std::cout << "drive" << std::endl;
-  //std::cout << Gyro->GetAngle() << std::endl;
+  std::cout << Gyro->GetAngle() << std::endl;
 	Middle_Right_Motor->Set(ControlMode::PercentOutput, -speed + (-turn / 2));
 	Middle_Left_Motor->Set(ControlMode::PercentOutput, speed + (-turn / 2));
 	Front_Right_Motor->Set(ControlMode::PercentOutput, -speed + (-turn / 2));
@@ -108,5 +114,15 @@ frc::PIDController* DriveSubsystem::GetVisionRotatePID()
   return VisionRotate_PID;
 }
 
+PIDVisionOutput* DriveSubsystem::GetVisionOutput()
+{
+  return VisionRotate_PID_Output;
+}
+
+void DriveSubsystem::ResetEnc()
+{
+ 	Middle_Right_Motor->GetSensorCollection().SetQuadraturePosition(0, 10);
+	Middle_Left_Motor->GetSensorCollection().SetQuadraturePosition(0, 10); 
+}
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

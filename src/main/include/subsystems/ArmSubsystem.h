@@ -10,23 +10,25 @@
 #include <frc/commands/Subsystem.h>
 #include "frc/WPILib.h"
 #include "ctre/Phoenix.h"
-#include "PID1Output.h"
+#include "ArmPIDOutput.h"
 #include "Enc1PIDSource.h"
 
 class ArmSubsystem : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  const float M_P = 0.02f;
+  const float M_P = 0.048f;
   const float M_I = 0.0f;
   const float M_D = 0.04f;
   TalonSRX* Arm_Motor;
-  PID1Output* Arm_PID_Output;
+  ArmPIDOutput* Arm_PID_Output;
   Enc1PIDSource* Arm_PID_Source;
   frc::PIDController* Arm_PID;
+  frc::DoubleSolenoid* Arm_Break;
  public:
   ArmSubsystem();
   void SetSpeed(double speed);
   frc::PIDController* GetArmPID();
+  ArmPIDOutput* GetArmPIDOutput();
   void InitDefaultCommand() override;
 };

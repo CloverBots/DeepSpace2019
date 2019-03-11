@@ -13,7 +13,11 @@
 
 OI::OI()
 {
-   NetworkTable::SetServerMode();
+
+	m_Camera = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+	m_Camera.SetResolution(CAMERA_X_RES, CAMERA_Y_RES);
+	m_Camera.SetFPS(15);
+    NetworkTable::SetServerMode();
 	NetworkTable::SetTeam(3674);
 	table = NetworkTable::GetTable("vision");
 	pDriveStick = new frc::Joystick(0);
@@ -199,23 +203,7 @@ int OI::GetDPad(int controller)
 	}
 }
 
-std::vector<int> OI::GetDataCenter()
+int OI::GetDataCenter()
 {
-	std::vector<int> data;
-	for(int i = 0; i < table->GetEntry("data_amount").GetDouble(0); i++)
-	{
-		data.push_back(table->GetEntry("data_center"+i).GetDouble(0));
-	}
-	return data;
-}
-
-
-std::vector<int> OI::GetDataSize()
-{
-	std::vector<int> data;
-	for(int i = 0; i < table->GetEntry("data_amount").GetDouble(0); i++)
-	{
-		data.push_back(table->GetEntry("data_size"+i).GetDouble(0));
-	}
-	return data;
+	return table->GetEntry("data_center").GetDouble(0);
 }

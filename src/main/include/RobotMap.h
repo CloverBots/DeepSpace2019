@@ -11,7 +11,9 @@
 
 class RobotMap
 {
+
     public:
+    
     const static int
     kFrontRight = 13,//
     kFrontLeft = 8,//
@@ -22,5 +24,24 @@ class RobotMap
     kElevatorMotor1 = 6,//
     kElevatorMotor2 = 4,//
     kArmMotor = 1,//
-    kCargoMotor = 5;//
+    kCargoMotor = 5,//
+    kLiftMotor1 = 100,
+    kLiftMotor2 = 100,
+    kLiftMotorDrive1 = 9;
+    
+    /*
+    const static int
+    kFrontRight = 11,//
+    kFrontLeft = 8,//
+    kMiddleRight = 2,//
+    kMiddleLeft = 1,//
+    kRearRight = 10,//
+    kRearLeft = 7,//
+    kElevatorMotor1 = 0,//
+    kElevatorMotor2 = 4,//
+    kArmMotor = 13,//
+    kCargoMotor = 5,//
+    kLiftMotor1 = 100,
+    kLiftMotor2 = 100,
+    kLiftMotorDrive1 = 100;*/
 };

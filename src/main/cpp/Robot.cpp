@@ -14,9 +14,14 @@ void Robot::RobotInit()
 {
 // m_chooser.AddOption("My Auto", &m_myAuto);
   CommandBase::Init();
-  m_defaultAuto = new VisionCommand();
-  m_chooser.SetDefaultOption("Default Auto", m_defaultAuto);
-
+  m_defaultAuto = new EnableTeleopAuto();
+  m_driveAuto = new DriveDistanceCommandAuto(50, .2, true);
+  m_rocketAuto = new RocketAuto();
+  m_middleAuto = new MiddleAuto();
+  m_chooser.SetDefaultOption("Teleop Auto", m_defaultAuto);
+  m_chooser.AddObject("Drive Auto", m_driveAuto);
+  m_chooser.AddObject("Middle Auto", m_middleAuto);
+  m_chooser.AddObject("Rocket Auto", m_rocketAuto);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
@@ -59,13 +64,12 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
+  
+  CommandBase::oi->disable_drive = true;
   c->Start();
-  std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Default");
-  if (autoSelected == "My Auto") {
-    m_autonomousCommand = m_defaultAuto;//m_myAuto;
-  } else {
-    m_autonomousCommand = m_defaultAuto;
-  }
+  
+	CommandBase::drivesubsystem->GetDrivePID()->SetEnabled(false);
+	CommandBase::drivesubsystem->GetRotatePID()->SetEnabled(false);
 
   m_autonomousCommand = m_chooser.GetSelected();
 
@@ -76,8 +80,6 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-  
-  CommandBase::oi->disable_drive = true;
    frc::Scheduler::GetInstance()->Run();
 }
 

@@ -23,13 +23,16 @@ void HatchCommand::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void HatchCommand::Execute()
 {
-  if(CommandBase::oi->GetButton(1, Buttons::A))
+  if(!CommandBase::oi->disable_drive)
   {
-    CommandBase::hatchsubsystem->SetHatch(frc::DoubleSolenoid::Value::kReverse); 
-  }
-  else
-  {
-    CommandBase::hatchsubsystem->SetHatch(frc::DoubleSolenoid::Value::kForward);
+    if(CommandBase::oi->GetButton(1, Buttons::A))
+    {
+      CommandBase::hatchsubsystem->SetHatch(frc::DoubleSolenoid::Value::kReverse); 
+    }
+    else
+    {
+      CommandBase::hatchsubsystem->SetHatch(frc::DoubleSolenoid::Value::kForward);
+    }
   }
 }
 

@@ -21,7 +21,10 @@ void CargoCommand::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void CargoCommand::Execute()
 {
-  CommandBase::cargosubsystem->SetSpeed(CommandBase::oi->GetAxis(1, Axis::LeftTrigger) - CommandBase::oi->GetAxis(1, Axis::RightTrigger));
+  if(!CommandBase::oi->disable_drive)
+  {
+    CommandBase::cargosubsystem->SetSpeed(CommandBase::oi->GetAxis(1, Axis::LeftTrigger) - CommandBase::oi->GetAxis(1, Axis::RightTrigger));
+  }
 }
 
 // Make this return true when this Command no longer needs to run execute()

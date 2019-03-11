@@ -7,6 +7,7 @@
 
 #include "commands/ArmCommandAuto.h"
 #include "CommandBase.h"
+#include <iostream>
 
 ArmCommandAuto::ArmCommandAuto(int position)  : position(position)
 {
@@ -16,13 +17,35 @@ ArmCommandAuto::ArmCommandAuto(int position)  : position(position)
 }
 
 // Called just before this Command runs the first time
-void ArmCommandAuto::Initialize() {}
+void ArmCommandAuto::Initialize()
+{
+  CommandBase::armsubsystem->GetArmPID()->SetEnabled(true);
+  CommandBase::armsubsystem->GetArmPID()->SetSetpoint(position);
+}
 
 // Called repeatedly when this Command is scheduled to run
-void ArmCommandAuto::Execute() {}
+void ArmCommandAuto::Execute()
+{
+  CommandBase::armsubsystem->SetSpeed(CommandBase::armsubsystem->GetArmPIDOutput()->GetValue());
+  std::cout << CommandBase::armsubsystem->GetArmPID()->GetError() << std::endl;
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ArmCommandAuto::IsFinished() { return false; }
+bool ArmCommandAuto::IsFinished()
+{
+
+  if(CommandBase::armsubsystem->GetArmPID()->OnTarget())
+  {
+    std::cout << "arm done" << std::endl;
+    CommandBase::armsubsystem->SetSpeed(0);
+    CommandBase::armsubsystem->GetArmPID()->SetEnabled(false);
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
 
 // Called once after isFinished returns true
 void ArmCommandAuto::End() {}

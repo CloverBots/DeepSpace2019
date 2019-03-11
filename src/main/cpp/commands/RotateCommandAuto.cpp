@@ -19,6 +19,24 @@ RotateCommandAuto::RotateCommandAuto(double degrees) : degrees(degrees)
 // Called just before this Command runs the first time
 void RotateCommandAuto::Initialize()
 {
+  if(abs(degrees) < 45)
+  {
+    CommandBase::drivesubsystem->GetRotatePID()->SetP(0.0092f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetD(0.00899f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetOutputRange(-1, 1);
+  }
+  else if(abs(degrees) < 180)
+  {
+    CommandBase::drivesubsystem->GetRotatePID()->SetP(0.00765f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetD(0.00899f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetOutputRange(-.8, .8);
+  }
+  else
+  {
+    CommandBase::drivesubsystem->GetRotatePID()->SetP(0.0079f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetD(0.0089f);
+    CommandBase::drivesubsystem->GetRotatePID()->SetOutputRange(-.8, .8);
+  }
 	CommandBase::drivesubsystem->GetGyro()->Reset();
   CommandBase::drivesubsystem->GetRotatePID()->SetEnabled(true);
   CommandBase::drivesubsystem->GetRotatePID()->SetSetpoint(degrees);
@@ -35,6 +53,7 @@ bool RotateCommandAuto::IsFinished()
 {
   if(CommandBase::drivesubsystem->GetRotatePID()->OnTarget())
 	{
+    std::cout << "DONE" << std::endl;
 		CommandBase::drivesubsystem->GetRotatePID()->SetEnabled(false);
 		CommandBase::drivesubsystem->GetGyro()->Reset();
 		return true;

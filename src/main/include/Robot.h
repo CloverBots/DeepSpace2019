@@ -16,7 +16,13 @@
 
 #include "commands/VisionCommand.h"
 #include "commands/DriveDistanceCommandAuto.h"
+#include "commands/ElevatorCommandAuto.h"
+#include "commands/ArmCommandAuto.h"
 #include "commands/RotateCommandAuto.h"
+#include "commands/RocketAuto.h"
+#include "commands/MiddleAuto.h"
+#include "commands/DriveCommandAuto.h"
+#include "commands/EnableTeleopAuto.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -35,6 +41,9 @@ class Robot : public frc::TimedRobot {
   // doesn't have undefined behavior and potentially crash.
   frc::Compressor *c = new frc::Compressor(0);
   frc::Command* m_autonomousCommand = nullptr;
-  VisionCommand* m_defaultAuto;
+  EnableTeleopAuto* m_defaultAuto;
+  DriveDistanceCommandAuto* m_driveAuto;
+  RocketAuto* m_rocketAuto;
+  MiddleAuto* m_middleAuto;
   frc::SendableChooser<frc::Command*> m_chooser;
 };

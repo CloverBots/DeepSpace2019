@@ -24,7 +24,7 @@ void ElevatorSubsystem::InitDefaultCommand()
   Elevator_Output = new ElevatorPIDOutput();
   Elevator_Source = new Enc1PIDSource(Elevator_Motor_1);
   Elevator_PID = new frc::PIDController(M_ELEVATOR_P, M_ELEVATOR_I, M_ELEVATOR_D, Elevator_Source, Elevator_Output);
-  Elevator_PID->SetOutputRange(-.3, .4);
+  Elevator_PID->SetOutputRange(-.375, .5);
   Elevator_PID->SetAbsoluteTolerance(4);
 }
 
@@ -40,6 +40,16 @@ void ElevatorSubsystem::Set(double speed)
     //std::cout << "BOTTOM" << std::endl;
     speed = 0;
   }
+  // if(!top->Get())
+  // {
+  //   std::cout << "TOP" << std::endl;
+  //   //speed = 0;
+  // }
+  // if(!bottom->Get())
+  // {
+  //   std::cout << "BOTTOM" << std::endl;
+  //   //speed = 0;
+  // }
   speed = -speed;
   if(speed > -.01 && speed < .01)
   {
@@ -50,7 +60,7 @@ void ElevatorSubsystem::Set(double speed)
     break_1->Set(frc::DoubleSolenoid::Value::kForward);
   }
 
-  Elevator_Motor_1->Set(ControlMode::PercentOutput, speed);
+  Elevator_Motor_1->Set(ControlMode::PercentOutput, -speed);
   Elevator_Motor_2->Set(ControlMode::PercentOutput, -speed);
 }
 

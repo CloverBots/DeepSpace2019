@@ -19,7 +19,7 @@ Enc1PIDSource::~Enc1PIDSource()
 
 double Enc1PIDSource::PIDGet()
 {
-	return -m_pTalon->GetSelectedSensorPosition(0) / 100;
+	return -m_pTalon->GetSelectedSensorPosition(0) / 100.0;
 }
 
 void Enc1PIDSource::Reset()

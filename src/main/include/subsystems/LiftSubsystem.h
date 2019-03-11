@@ -7,17 +7,20 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc/commands/Subsystem.h>
+#include "frc/WPILib.h"
+#include "ctre/Phoenix.h"
 
-class ElevatorCommandAuto : public frc::Command {
-  int position = 0;
-  int old_pos = 0;
-  bool done = false;
+class LiftSubsystem : public frc::Subsystem {
+ private:
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
+  TalonSRX* Lift_Motor_1;
+  TalonSRX* Lift_Motor_2;
+  TalonSRX* Lift_Motor_Drive_1;
  public:
-  ElevatorCommandAuto(int position);
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
+  LiftSubsystem();
+  void InitDefaultCommand() override;
+  void SetLift(double speed);
+  void SetDrive(double speed);
 };

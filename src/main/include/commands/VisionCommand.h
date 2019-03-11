@@ -9,7 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class VisionCommand : public frc::Command {
+class VisionCommand : public frc::Command
+{
+  double last_known_angle;
  public:
   VisionCommand();
   void Initialize() override;

@@ -9,27 +9,42 @@
 #include "CommandBase.h"
 #include <iostream>
 
-DriveDistanceCommandAuto::DriveDistanceCommandAuto(double distance) : distance(distance)
+DriveDistanceCommandAuto::DriveDistanceCommandAuto(double distance, double slow_speed, bool do_slow) : distance(distance), slow_speed(slow_speed), do_slow(do_slow)
 {
-  // Use Requires() here to declare subsystem dependencies
-  // eg. Requires(Robot::chassis.get());
-  Requires(CommandBase::drivesubsystem.get());
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
+	CommandBase::drivesubsystem->GetDrivePID()->SetEnabled(false);
+	Requires(CommandBase::drivesubsystem.get());
 }
 
 // Called just before this Command runs the first time
 void DriveDistanceCommandAuto::Initialize()
 {
   
+  	//std::cout << "init angle: " << CommandBase::drivesubsystem->GetGyro()->GetAngle() << std::endl;
 	CommandBase::drivesubsystem->GetDrivePID()->SetEnabled(true);
 	CommandBase::drivesubsystem->GetDriveRotatePID()->SetEnabled(true);
 	CommandBase::drivesubsystem->GetRotatePID()->SetEnabled(false);
 	CommandBase::drivesubsystem->GetDrivePID()->SetSetpoint(distance);
 	CommandBase::drivesubsystem->GetGyro()->Reset();
+	CommandBase::drivesubsystem->ResetEnc();
 	CommandBase::drivesubsystem->GetDriveRotatePID()->SetSetpoint(0);
+	
+	if(do_slow)
+	{
+		CommandBase::drivesubsystem->GetDrivePID()->SetOutputRange(-slow_speed, slow_speed);
+	}
+	else
+	{
+		CommandBase::drivesubsystem->GetDrivePID()->SetOutputRange(-1, 1);
+	}
 }
 
 // Called repeatedly when this Command is scheduled to run
-void DriveDistanceCommandAuto::Execute() {}
+void DriveDistanceCommandAuto::Execute()
+{
+  std::cout << "angle: " << CommandBase::drivesubsystem->GetGyro()->GetAngle() << std::endl;
+}
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistanceCommandAuto::IsFinished() 

@@ -5,19 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "commands/MiddleAuto.h"
 
-#include <frc/commands/Command.h>
-
-class ElevatorCommandAuto : public frc::Command {
-  int position = 0;
-  int old_pos = 0;
-  bool done = false;
- public:
-  ElevatorCommandAuto(int position);
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
-};
+MiddleAuto::MiddleAuto()
+{
+  AddSequential(new DriveDistanceCommandAuto(50, .4, true));
+  AddSequential(new DriveDistanceCommandAuto(83, 1, false));
+  AddSequential(new ArmCommandAuto(-27));
+  AddSequential(new HatchCommandAuto(true));
+  AddSequential(new DriveDistanceCommandAuto(-10, 1, false));
+  AddSequential(new HatchCommandAuto(false));
+}

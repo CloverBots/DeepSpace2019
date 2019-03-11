@@ -9,12 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class ElevatorCommandAuto : public frc::Command {
-  int position = 0;
-  int old_pos = 0;
-  bool done = false;
+class EnableTeleopAuto : public frc::Command {
  public:
-  ElevatorCommandAuto(int position);
+  EnableTeleopAuto();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

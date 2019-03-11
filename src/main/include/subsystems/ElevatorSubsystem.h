@@ -17,7 +17,7 @@ class ElevatorSubsystem : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  const float M_ELEVATOR_P = 0.03f;
+  const float M_ELEVATOR_P = 0.04f;
   const float M_ELEVATOR_I = 0.0f;
   const float M_ELEVATOR_D = 0.0f;
 

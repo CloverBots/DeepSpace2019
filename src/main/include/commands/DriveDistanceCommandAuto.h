@@ -11,8 +11,11 @@
 
 class DriveDistanceCommandAuto : public frc::Command {
   double distance;
+  double slow_speed;
+  double distance_slow;
+  bool do_slow;
  public:
-  DriveDistanceCommandAuto(double distance);
+  DriveDistanceCommandAuto(double distance, double slow_speed, bool do_slow);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

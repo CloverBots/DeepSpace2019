@@ -11,26 +11,27 @@
 #include "frc/WPILib.h"
 #include "ctre/Phoenix.h"
 #include "PID2Output.h"
+#include "PIDVisionOutput.h"
 #include "Enc2PIDSource.h"
 
 class DriveSubsystem : public frc::Subsystem {
  private:
 
-  const float M_DRIVE_P = 0.033f;
+  const float M_DRIVE_P = 0.0355f;
   const float M_DRIVE_I = 0.0f;
   const float M_DRIVE_D = 0.06f;
 
-  const float M_ROTATE_P = 0.008f;
+  const float M_ROTATE_P = 0.0115f;
   const float M_ROTATE_I = 0.0f;
-  const float M_ROTATE_D = 0.008f;
+  const float M_ROTATE_D = 0.00899f;
 
-  const float M_DRIVEROTATE_P = 0.012f;
+  const float M_DRIVEROTATE_P = 0.0097f;
   const float M_DRIVEROTATE_I = 0.0f;
-  const float M_DRIVEROTATE_D = 0.008f;
+  const float M_DRIVEROTATE_D = 0.007f;
 
-  const float M_VISIONROTATE_P = 0.015f;
+  const float M_VISIONROTATE_P = 0.008;
   const float M_VISIONROTATE_I = 0.0f;
-  const float M_VISIONROTATE_D = 0.008f;
+  const float M_VISIONROTATE_D = 0.01f;
 
   TalonSRX* Front_Right_Motor;
   TalonSRX* Front_Left_Motor;
@@ -45,7 +46,7 @@ class DriveSubsystem : public frc::Subsystem {
   PID2Output* Drive_PID_Output;
   PID2Output* Rotate_PID_Output;
   PID2Output* DriveRotate_PID_Output;
-  PID2Output* VisionRotate_PID_Output;
+  PIDVisionOutput* VisionRotate_PID_Output;
 
   frc::ADXRS450_Gyro* Gyro;
 
@@ -57,6 +58,7 @@ class DriveSubsystem : public frc::Subsystem {
   public:
   
   DriveSubsystem();
+  void ResetEnc();
   void Drive(double speed, double turn, bool turn_override);
   void Shift(frc::DoubleSolenoid::Value value);
   frc::ADXRS450_Gyro* GetGyro();
@@ -64,5 +66,6 @@ class DriveSubsystem : public frc::Subsystem {
   frc::PIDController* GetRotatePID();
   frc::PIDController* GetDriveRotatePID();
   frc::PIDController* GetVisionRotatePID();
+  PIDVisionOutput* GetVisionOutput();
   void InitDefaultCommand() override;
 };

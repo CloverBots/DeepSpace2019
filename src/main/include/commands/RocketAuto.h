@@ -7,17 +7,16 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc/commands/CommandGroup.h>
+#include "DriveDistanceCommandAuto.h"
+#include "RotateCommandAuto.h"
+#include "ArmCommandAuto.h"
+#include "CargoCommandAuto.h"
+#include "HatchCommandAuto.h"
+#include "DriveCommandAuto.h"
+#include "ElevatorCommandAuto.h"
 
-class ElevatorCommandAuto : public frc::Command {
-  int position = 0;
-  int old_pos = 0;
-  bool done = false;
+class RocketAuto : public frc::CommandGroup {
  public:
-  ElevatorCommandAuto(int position);
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
+  RocketAuto();
 };

@@ -12,6 +12,7 @@ std::unique_ptr<ArmSubsystem> CommandBase::armsubsystem;
 std::unique_ptr<ElevatorSubsystem> CommandBase::elevatorsubsystem;
 std::unique_ptr<CargoSubsystem> CommandBase::cargosubsystem;
 std::unique_ptr<HatchSubsystem> CommandBase::hatchsubsystem;
+std::unique_ptr<LiftSubsystem> CommandBase::liftsubsystem;
 
 CommandBase::CommandBase(const std::string &name) :
 		frc::Command(name) {
@@ -25,5 +26,6 @@ void CommandBase::Init()
 	elevatorsubsystem.reset(new ElevatorSubsystem);
 	cargosubsystem.reset(new CargoSubsystem);
 	hatchsubsystem.reset(new HatchSubsystem);
+	liftsubsystem.reset(new LiftSubsystem);
 }
 

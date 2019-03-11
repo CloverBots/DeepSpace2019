@@ -28,9 +28,12 @@ enum Buttons
 
 class OI
 {
-  
+  	const static int CAMERA_X_RES = 200;
+	const static int CAMERA_Y_RES = 160;
   std::shared_ptr<NetworkTable> table;
 public:
+
+	cs::UsbCamera m_Camera;
 	double drive_rotate = 0;
 	bool disable_drive = false;
 	frc::Joystick* pDriveStick;
@@ -62,7 +65,6 @@ public:
 	bool GetButton(int controller, Buttons button);
 	int GetDPad(int controller);
   
-  	std::vector<int> GetDataCenter();
-  	std::vector<int> GetDataSize();
+  	int GetDataCenter();
 	OI();
 };

@@ -10,6 +10,7 @@
 #include "subsystems/ElevatorSubsystem.h"
 #include "subsystems/CargoSubsystem.h"
 #include "subsystems/HatchSubsystem.h"
+#include "subsystems/LiftSubsystem.h"
 #include "OI.h"
 
 
@@ -31,5 +32,6 @@ public:
 	static std::unique_ptr<ElevatorSubsystem> elevatorsubsystem;
 	static std::unique_ptr<CargoSubsystem> cargosubsystem;
 	static std::unique_ptr<HatchSubsystem> hatchsubsystem;
+	static std::unique_ptr<LiftSubsystem> liftsubsystem;
 };
 #endif  // COMMAND_BASE_H

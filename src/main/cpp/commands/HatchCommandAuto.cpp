@@ -32,7 +32,7 @@ void HatchCommandAuto::Execute()
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool HatchCommandAuto::IsFinished() { return false; }
+bool HatchCommandAuto::IsFinished() { return true; }
 
 // Called once after isFinished returns true
 void HatchCommandAuto::End() {}

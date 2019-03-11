@@ -60,7 +60,9 @@ void VisionCommand::Initialize()
 
 // Called repeatedly when this Command is scheduled to run
 void VisionCommand::Execute()
-{
+{/*
+  CommandBase::drivesubsystem->GetVisionOutput()->SetSpeed(0);
+  CommandBase::drivesubsystem->GetGyro()->Reset();
   std::vector<int> data_center = CommandBase::oi->GetDataCenter();
   std::vector<int> data_size = CommandBase::oi->GetDataSize();
   if(data_center.size() > 0)
@@ -68,13 +70,14 @@ void VisionCommand::Execute()
     int target_data_center;
     target_data_center = closest(data_center, 1280/2);
     double target_angle = (double)((90.0/2.0) / (1280.0/2.0)) * (double)(target_data_center - 1280/2); 
-    std::cout << "angle: " << target_angle << "   " << target_data_center << std::endl;
+    std::cout << "angle: " << -(-target_angle - CommandBase::drivesubsystem->GetGyro()->GetAngle()) << "   " << target_data_center << std::endl;
     CommandBase::drivesubsystem->GetVisionRotatePID()->SetSetpoint(-(-target_angle - CommandBase::drivesubsystem->GetGyro()->GetAngle()));
+    last_known_angle = -(-target_angle - CommandBase::drivesubsystem->GetGyro()->GetAngle());
   }
   else
   {
-    CommandBase::drivesubsystem->GetVisionRotatePID()->SetSetpoint(CommandBase::drivesubsystem->GetGyro()->GetAngle());
-  }
+    CommandBase::drivesubsystem->GetVisionRotatePID()->SetSetpoint(last_known_angle);
+  }*/
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -82,6 +85,7 @@ bool VisionCommand::IsFinished()
 {
     if(CommandBase::drivesubsystem->GetVisionRotatePID()->OnTarget())
 	  {
+      CommandBase::drivesubsystem->GetVisionRotatePID()->Reset();
 	  	CommandBase::drivesubsystem->GetVisionRotatePID()->SetEnabled(false);
 	  	CommandBase::drivesubsystem->GetGyro()->Reset();
 	  	return true;
@@ -93,8 +97,12 @@ bool VisionCommand::IsFinished()
 }
 
 // Called once after isFinished returns true
-void VisionCommand::End() {}
+void VisionCommand::End(){}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void VisionCommand::Interrupted() {}
+void VisionCommand::Interrupted()
+{
+  CommandBase::drivesubsystem->GetVisionRotatePID()->Reset();
+	CommandBase::drivesubsystem->GetVisionRotatePID()->SetEnabled(false);
+}
